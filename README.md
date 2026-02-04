@@ -1,94 +1,305 @@
-# SalesCustomersAnalysis
+## 📊 Superstore Sales Analytics & Data Warehouse Project
+### 📌 Project Overview
 
-# Superstore Analytics Project
+The Superstore Sales Analytics Project focuses on designing and implementing a Sales Data Warehouse using the Superstore retail dataset.
 
-## Project Overview
-The **Superstore Analytics Project** is designed to perform a detailed analysis of retail sales data to gain insights into product performance, customer behavior, and regional trends. The project uses **PostgreSQL** as the database and **Python** for data analysis and visualization.
+The objective is to:
 
-The goal is to build a structured database, ingest sales data, perform exploratory data analysis (EDA), and create meaningful visualizations and dashboards to assist business decisions.
+Transform raw transactional CSV data into a structured star schema
 
----
+Perform clean ETL (Extract, Transform, Load) using Python
 
-## Dataset
-The dataset used is a **Superstore sales dataset** containing information about orders, products, customers, regions, and sales transactions. Key columns include:
+Store analytics-ready data in PostgreSQL
 
-- `Order ID`, `Order Date`, `Order Priority`
-- `Customer ID`, `Customer Name`
-- `Product ID`, `Product Name`
-- `City`, `State`, `Country`, `Region`
-- `Sales`, `Quantity`, `Discount`, `Profit`
+Enable efficient SQL analysis, reporting, and BI integration
 
----
+This project simulates a real-world data engineering workflow, from raw data to analytics-ready storage.
 
-## Database Design
+🗂 Dataset
 
-The dataset has been split into 4 normalized tables:
+The dataset used is a Superstore sales dataset containing information related to:
 
-1. **Customers**
-   - `Customer ID` (PK), `Customer Name`, `City`, `State`, `Country`, `Region`
+Orders and shipping details
 
-2. **Products**
-   - `Product ID` (PK), `Product Name`, `Category`, `Sub-Category`
+Customers and segments
 
-3. **Orders**
-   - `Order ID` + `Product ID` (Composite PK)
-   - Foreign Keys: `Customer ID` → Customers, `Product ID` → Products
-   - Columns: `Order Date`, `Order Priority`, `Sales`, `Quantity`, `Discount`, `Profit`
+Products and categories
 
-4. **Regions**
-   - `Region` (PK), mapping of region to states and countries
+Geographic regions
 
----
+Sales performance metrics
 
-## Environment Setup
+Key Columns Include:
 
-- **Database:** PostgreSQL 17.x
-- **Python Packages:**
-  - `pandas` – for data manipulation
-  - `sqlalchemy` – for database connection and ORM
-  - `psycopg2` – PostgreSQL driver
-  - `matplotlib` / `seaborn` – for visualization
+Order ID, Order Date, Ship Date, Order Priority
 
----
+Customer ID, Customer Name, Segment
 
-## What Has Been Completed
+Product ID, Product Name, Category, Sub-Category
 
-1. Dataset exploration and understanding
-2. Database schema design and table relationships
-3. PostgreSQL installation and database creation
-4. PostgreSQL configuration (`postgresql.conf` and `pg_hba.conf`) for local connections
-5. Verified database connection through **psql CLI**
-6. Setup Python environment with required packages
-7. Attempted SQLAlchemy connection (pending TCP/IP connectivity fix)
+Country, Region, State, City
 
----
+Sales, Profit, Quantity, Discount
 
-## Pending Tasks
+🛠 Tech Stack
 
-1. Fix **Python → PostgreSQL connection issue** (`Connection refused` on `127.0.0.1:5432`)
-2. Load CSV dataset into PostgreSQL tables using Python
-3. Clean and preprocess data (missing values, duplicates, foreign key consistency)
-4. Perform **Exploratory Data Analysis (EDA)**
-5. Execute SQL queries for business insights:
-   - Top-selling products
-   - Best customers and regions
-   - Profit and sales trends
-6. Build interactive dashboards (optional):
-   - Using `Streamlit`, `Dash`, or visualization tools like Tableau
+Python (Pandas, SQLAlchemy)
 
----
+PostgreSQL
 
-## Notes / Observations
+Jupyter Notebook
 
-- PostgreSQL must allow TCP/IP connections (`listen_addresses = '*'`) and authentication must be set in `pg_hba.conf`.
-- Changes to configuration require a **restart of PostgreSQL service**.
-- Connection issues are currently under investigation for Python/SQLAlchemy.
+VS Code
 
----
+GitHub
 
-## References
+Optional (future):
 
-- [SQLAlchemy Documentation](https://www.sqlalchemy.org/)
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
-- [Python pandas Documentation](https://pandas.pydata.org/)
-- Superstore Dataset source: public Kaggle datasets or provided CSV
+Power BI / Tableau
+
+Streamlit / Dash
+
+Apache Airflow
+
+🗂 Database Design (Star Schema)
+
+The data warehouse follows a Star Schema consisting of:
+
+Dimension Tables
+
+dim_customer – customer details
+
+dim_product – product information
+
+dim_region – geographical hierarchy
+
+dim_date – time-based attributes
+
+Fact Table
+
+fact_sales – transactional sales metrics
+
+This design supports fast aggregations and analytical queries.
+
+🚀 Project Workflow (Step-by-Step)
+✅ STEP 1: Raw Data Understanding
+
+Loaded the Superstore CSV file into a Pandas DataFrame
+
+Analyzed columns related to:
+
+Customers
+
+Products
+
+Geography
+
+Dates
+
+Sales metrics
+
+Objective: Identify dimension vs fact attributes.
+
+✅ STEP 2: Environment & Database Setup
+
+Installed and configured PostgreSQL
+
+Created database: Superstore_db
+
+Verified database access via:
+
+psql CLI
+
+SQLAlchemy engine from Python
+
+Set up Python environment with required libraries
+
+✅ STEP 3: Schema Design & Table Creation
+
+Designed star schema tables with:
+
+Proper data types
+
+Primary keys
+
+Foreign key constraints
+
+Created tables in PostgreSQL:
+
+dim_customer
+
+dim_product
+
+dim_region
+
+dim_date
+
+fact_sales
+
+✅ STEP 4: Customer Dimension (dim_customer)
+
+Purpose: Store unique customer records.
+
+Actions:
+
+Extracted customer-related columns
+
+Removed duplicates using customer_id
+
+Loaded 793 unique customers
+
+Ensured idempotent inserts (safe re-runs)
+
+✅ STEP 5: Product Dimension (dim_product)
+
+Purpose: Store unique product details.
+
+Actions:
+
+Extracted:
+
+product_id
+
+product_name
+
+category
+
+sub_category
+
+Removed duplicates
+
+Loaded 1862 unique products
+
+✅ STEP 6: Region Dimension (dim_region)
+
+Purpose: Store geographical hierarchy.
+
+Actions:
+
+Extracted:
+
+country
+
+region
+
+state
+
+city
+
+Cleaned and deduplicated data
+
+Loaded region records while maintaining consistency
+
+✅ STEP 7: Date Dimension (dim_date)
+
+Purpose: Enable time-based analysis.
+
+Columns:
+
+date
+
+day
+
+month
+
+year
+
+quarter
+
+day_name
+
+Actions:
+
+Converted raw date strings into proper date format
+
+Handled missing and invalid date values
+
+Generated derived date attributes
+
+Enforced uniqueness on date column
+
+Successfully loaded all valid dates
+
+✅ STEP 8: Fact Table Preparation (fact_sales)
+
+Purpose: Store transactional metrics.
+
+Contains:
+
+Foreign keys:
+
+customer_id
+
+product_id
+
+region_id
+
+date_id
+
+Measures:
+
+sales
+
+profit
+
+quantity
+
+discount
+
+Actions:
+
+Joined fact data with dimension tables to fetch surrogate keys
+
+Validated no NULL foreign keys
+
+Ensured referential integrity
+
+✅ STEP 9: Fact Table Loading
+
+Inserted cleaned data into fact_sales
+
+Verified row counts
+
+Confirmed all foreign key relationships
+
+🔍 Final Verification
+
+Checked row counts across all tables
+
+Verified primary and foreign key constraints
+
+Ensured schema consistency and analytical readiness
+
+📈 What This Project Enables
+
+Fast analytical SQL queries
+
+Sales and profit trend analysis
+
+Customer and product performance insights
+
+BI dashboard integration
+
+Hands-on experience with data warehousing concepts
+
+📌 Future Enhancements
+
+Add indexes for performance optimization
+
+Create analytical SQL views
+
+Perform Exploratory Data Analysis (EDA)
+
+Build dashboards using Power BI / Tableau
+
+Automate ETL pipelines using Apache Airflow
+
+📚 References
+
+PostgreSQL Documentation
+
+SQLAlchemy Documentation
+
+Pandas Documentation
+
+Superstore Dataset (public datasets)
