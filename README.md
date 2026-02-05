@@ -1,242 +1,68 @@
-## 📊 Superstore Sales Analytics & Data Warehouse Project
-### 📌 Project Overview
+### 🧾 Superstore Sales Analytics & Data Warehouse Project
+##### 🔍 Project Summary
 
-The Superstore Sales Analytics Project focuses on designing and implementing a Sales Data Warehouse using the Superstore retail dataset.
+This project implements an end-to-end sales analytics system using a data warehouse approach on a retail Superstore dataset.
+The focus is on data modeling, ETL engineering, analytical querying, and business-driven insights, closely resembling how analytics systems are built in real organizations.
 
-The objective is to:
+The workflow starts from raw transactional data, transforms it into a star schema, loads it into PostgreSQL, and performs SQL + Python-based analysis and visualization to extract actionable insights.
 
-Transform raw transactional CSV data into a structured star schema
+##### 🎯 Project Goals
 
-Perform clean ETL (Extract, Transform, Load) using Python
+Design a scalable star schema for sales analytics
+
+Perform clean, repeatable ETL pipelines using Python
 
 Store analytics-ready data in PostgreSQL
 
-Enable efficient SQL analysis, reporting, and BI integration
+Enable fast SQL analysis and business reporting
 
-This project simulates a real-world data engineering workflow, from raw data to analytics-ready storage.
+Generate meaningful insights through visualizations
 
-🗂 Dataset
+Build a strong data engineering + analytics portfolio project
 
-The dataset used is a Superstore sales dataset containing information related to:
+##### 📦 Dataset Description
 
-Orders and shipping details
+The dataset represents retail transactions containing:
 
-Customers and segments
+Order lifecycle details (order date, ship date)
 
-Products and categories
+Customer segmentation
 
-Geographic regions
+Product hierarchy
 
-Sales performance metrics
+Geographic information
 
-Key Columns Include:
+Sales and profitability metrics
 
-Order ID, Order Date, Ship Date, Order Priority
+Core Metrics
 
-Customer ID, Customer Name, Segment
+Sales
 
-Product ID, Product Name, Category, Sub-Category
+Profit
 
-Country, Region, State, City
+Quantity
 
-Sales, Profit, Quantity, Discount
+Discount
 
-🛠 Tech Stack
+Business Dimensions
 
-Python (Pandas, SQLAlchemy)
+Customer
 
-PostgreSQL
+Product
 
-Jupyter Notebook
+Region
 
-VS Code
+Date
 
-GitHub
+##### 🏗️ Data Warehouse Design
 
-Optional (future):
-
-Power BI / Tableau
-
-Streamlit / Dash
-
-Apache Airflow
-
-🗂 Database Design (Star Schema)
-
-The data warehouse follows a Star Schema consisting of:
-
-Dimension Tables
-
-dim_customer – customer details
-
-dim_product – product information
-
-dim_region – geographical hierarchy
-
-dim_date – time-based attributes
+The system follows a Star Schema, optimized for analytical workloads.
 
 Fact Table
 
-fact_sales – transactional sales metrics
-
-This design supports fast aggregations and analytical queries.
-
-🚀 Project Workflow (Step-by-Step)
-✅ STEP 1: Raw Data Understanding
-
-Loaded the Superstore CSV file into a Pandas DataFrame
-
-Analyzed columns related to:
-
-Customers
-
-Products
-
-Geography
-
-Dates
-
-Sales metrics
-
-Objective: Identify dimension vs fact attributes.
-
-✅ STEP 2: Environment & Database Setup
-
-Installed and configured PostgreSQL
-
-Created database: Superstore_db
-
-Verified database access via:
-
-psql CLI
-
-SQLAlchemy engine from Python
-
-Set up Python environment with required libraries
-
-✅ STEP 3: Schema Design & Table Creation
-
-Designed star schema tables with:
-
-Proper data types
-
-Primary keys
-
-Foreign key constraints
-
-Created tables in PostgreSQL:
-
-dim_customer
-
-dim_product
-
-dim_region
-
-dim_date
-
 fact_sales
 
-✅ STEP 4: Customer Dimension (dim_customer)
-
-Purpose: Store unique customer records.
-
-Actions:
-
-Extracted customer-related columns
-
-Removed duplicates using customer_id
-
-Loaded 793 unique customers
-
-Ensured idempotent inserts (safe re-runs)
-
-✅ STEP 5: Product Dimension (dim_product)
-
-Purpose: Store unique product details.
-
-Actions:
-
-Extracted:
-
-product_id
-
-product_name
-
-category
-
-sub_category
-
-Removed duplicates
-
-Loaded 1862 unique products
-
-✅ STEP 6: Region Dimension (dim_region)
-
-Purpose: Store geographical hierarchy.
-
-Actions:
-
-Extracted:
-
-country
-
-region
-
-state
-
-city
-
-Cleaned and deduplicated data
-
-Loaded region records while maintaining consistency
-
-✅ STEP 7: Date Dimension (dim_date)
-
-Purpose: Enable time-based analysis.
-
-Columns:
-
-date
-
-day
-
-month
-
-year
-
-quarter
-
-day_name
-
-Actions:
-
-Converted raw date strings into proper date format
-
-Handled missing and invalid date values
-
-Generated derived date attributes
-
-Enforced uniqueness on date column
-
-Successfully loaded all valid dates
-
-✅ STEP 8: Fact Table Preparation (fact_sales)
-
-Purpose: Store transactional metrics.
-
-Contains:
-
-Foreign keys:
-
-customer_id
-
-product_id
-
-region_id
-
-date_id
-
-Measures:
+Stores transactional measures:
 
 sales
 
@@ -246,60 +72,145 @@ quantity
 
 discount
 
-Actions:
+References all dimension tables via foreign keys
 
-Joined fact data with dimension tables to fetch surrogate keys
+Dimension Tables
 
-Validated no NULL foreign keys
+dim_customer → customer identity & segmentation
+
+dim_product → product, category, sub-category
+
+dim_region → country, region, state, city
+
+dim_date → calendar attributes for time analysis
+
+This structure supports fast aggregations, time-series analysis, and BI integration.
+
+🔄 ETL & Data Processing Workflow
+1️⃣ Raw Data Exploration
+
+Loaded CSV data into Pandas
+
+Identified fact vs dimension attributes
+
+Validated data quality and null patterns
+
+2️⃣ Database & Environment Setup
+
+PostgreSQL database creation
+
+Python–PostgreSQL integration using SQLAlchemy
+
+Version-controlled development using Git
+
+3️⃣ Schema Creation
+
+Designed tables with:
+
+Proper data types
+
+Primary keys
+
+Foreign key constraints
 
 Ensured referential integrity
 
-✅ STEP 9: Fact Table Loading
+4️⃣ Dimension Loading
 
-Inserted cleaned data into fact_sales
+Deduplicated records
 
-Verified row counts
+Ensured idempotent inserts
 
-Confirmed all foreign key relationships
+Loaded clean, consistent dimension data
 
-🔍 Final Verification
+5️⃣ Date Dimension Engineering
 
-Checked row counts across all tables
+Generated derived attributes:
 
-Verified primary and foreign key constraints
+year, month, day, quarter
 
-Ensured schema consistency and analytical readiness
+day name
 
-📈 What This Project Enables
+Handled missing dates safely
 
-Fast analytical SQL queries
+Ensured full coverage for fact records
 
-Sales and profit trend analysis
+6️⃣ Fact Table Loading
 
-Customer and product performance insights
+Mapped natural keys to dimension keys
 
-BI dashboard integration
+Validated zero orphan records
 
-Hands-on experience with data warehousing concepts
+Verified row counts and constraints
 
-📌 Future Enhancements
+##### 📊 Analytical & Visualization Layer
 
-Add indexes for performance optimization
+Analysis was performed using SQL and Python.
 
-Create analytical SQL views
+Key Insights Extracted
 
-Perform Exploratory Data Analysis (EDA)
+Top revenue-generating customers
 
-Build dashboards using Power BI / Tableau
+Most profitable products and categories
 
-Automate ETL pipelines using Apache Airflow
+Impact of discounts on profit
 
-📚 References
+Monthly and quarterly sales trends
 
-PostgreSQL Documentation
+Regional sales vs profit comparison
 
-SQLAlchemy Documentation
+Identification of loss-making patterns
 
-Pandas Documentation
+Visualization Tools
 
-Superstore Dataset (public datasets)
+Matplotlib
+
+Seaborn
+
+Pandas
+
+Charts were designed with a business-first mindset, focusing on:
+
+Clarity
+
+Interpretability
+
+Decision relevance
+
+##### 💡 Business Findings (Highlights)
+
+High discounts strongly correlate with negative profit
+
+Revenue is concentrated among a small customer segment
+
+Some high-sales products are consistently unprofitable
+
+Seasonal trends significantly impact sales volume
+
+Regional performance varies strongly in profitability, not just sales
+
+##### 🧠 Skills Demonstrated
+
+Data Warehousing & Dimensional Modeling
+
+SQL (joins, aggregations, analytical queries)
+
+Python ETL pipelines
+
+PostgreSQL optimization mindset
+
+Data visualization for business insights
+
+Git-based project structuring
+
+##### 🛠️ Tech Stack
+
+Database: PostgreSQL
+
+Language: Python
+
+Libraries: Pandas, SQLAlchemy, Matplotlib, Seaborn
+
+Environment: Jupyter Notebook, VS Code
+
+Version Control: Git & GitHub
